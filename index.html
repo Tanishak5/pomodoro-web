@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Pixelify Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Jersey 10' rel='stylesheet'>
+    <link rel = 'stylesheet' href = "style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+</head>
+<body>
+    <nav> 
+        <img src = "cat.png" height = 60px  style="top:15px;">
+        <a id="logo">Focus flow</a>
+        <a id = "themes">Themes</a>
+        <div class = "dropdown" id="dropdown">
+            <div class = "dropdowns" id="kikiBack">
+                <a id = "kiki">Kiki</a>
+            </div>
+            <div class = "dropdowns" id="spidermanBack">
+                <a id = "spiderman">Spiderman</a>
+            </div>
+            <div class = "dropdowns"  id="hpBack">
+                <a id = "hp">Hogwarts</a>
+            </div>
+            <div class = "dropdowns" id="lofiBack">
+                <a id = "lofi">Lofi</a>
+            </div>
+            <div class = "dropdowns" id="totoroBack">
+                <a id = "totoro">Totoro</a>
+            </div>
+  
+        </div>
+        <a id = "music">Music</a>
+        <a id = "timer">Timers</id>
+        <a id = "other">Other</a>
+    </nav>
+    <header>
+        <h1 >Pomodoro Timer</h1> 
+    </header>
+   
+    <div class = 'pomodoro-container' id = "pomodoro-container">
+        
+        <div class="timer-container">
+            <span id="time"> 25:00</span>
+            <btn class = "triangle-up" id = "up"></btn>
+            <btn class = "triangle-down" id = "down"></btn>
+        </div>
+        <div class = "img-container" id="img-container">
+
+        </div>
+        <div id = "button-holder">
+            <btn id = "start">START </btn>
+        </div>
+        <div id = "pause-holder" style = "display:none;">
+            <btn id="pause" style="display: none;">PAUSE</btn>
+        </div>
+        
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
