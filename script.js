@@ -1,14 +1,19 @@
 document.addEventListener('DOMContentLoaded', ()=>{
     console.log('alert loaded');
 
+    const kikiAudio = new Audio("music/03 a town with an ocean view (kiki's delivery service).mp3");
+    const hpAudio = new Audio("music/Harry_Potter_Theme_Song_Hedwigs_Theme.mp3");
+    const lofiAudio = new Audio("music/lofi-study-calm-peaceful-chill-hop-112191.mp3");
+    const lofi2Audio = new Audio("music/lofi-girl-lofi-ambient-music-365952.mp3");
+
+
 	const pomodoroContainer = document.getElementById("pomodoro-container");
     const imgContainer = document.getElementById("img-container");
-    const dropDown = document.getElementById("dropdown");
-    const kikiDrop = document.getElementById("kikiBack");
-    const spiderDrop = document.getElementById("spidermanBack");
-    const lofiDrop = document.getElementById("lofiBack");
-    const totoroDrop = document.getElementById("totoroBack");
-    const hogwartsDrop = document.getElementById("hpBack");
+    const dropDown = document.getElementById("dropdownthemes"); // outer themeblock
+    const dropDownMusic = document.getElementById("dropdownmusic"); // outer music block
+    const dropDownBacks = document.querySelectorAll(".music-back") // all the music background blocks instead of doing drops
+    const dropDownThemeBacks = document.querySelectorAll(".theme-backs")
+
 
     //LINKS
     const kiki = document.getElementById("kiki");
@@ -16,7 +21,58 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const hogwarts = document.getElementById("hp");
     const totoro = document.getElementById("totoro");
     const lofi = document.getElementById("lofi");
-    let theme;
+    const timerlink = document.getElementById("timer");
+    const todoLink = document.getElementById("other");
+    const todoContainer = document.getElementById("to-do-container");
+    const kikiMusic = document.getElementById("sound1");
+    const hpMusic = document.getElementById("sound2");
+    const lofiMusic = document.getElementById("sound3");
+    const lofiMusic2 = document.getElementById("sound4");
+    const stopMusic = document.getElementById("sound5");
+    let theme; let currentAudio = null;
+
+    kikiMusic.addEventListener("click", ()=>{
+        if (currentAudio && !currentAudio.paused) currentAudio.pause();
+
+        kikiAudio.play();
+        // kikiAudio.loop();
+        kikiAudio.volume = 0.25;
+        currentAudio = kikiAudio;
+
+
+    })
+    hpMusic.addEventListener("click", ()=>{
+        if (currentAudio && !currentAudio.paused) currentAudio.pause();
+
+        hpAudio.play();
+        // hpAudio.loop();
+        hpAudio.volume = 0.25;
+        currentAudio = hpAudio;
+    })
+    lofiMusic.addEventListener("click", ()=>{
+        if (currentAudio && !currentAudio.paused) currentAudio.pause();
+
+        lofiAudio.play();
+        // lofiAudio.loop();
+        lofiAudio.volume = 0.25;
+        currentAudio = lofiAudio;
+    })
+    lofiMusic2.addEventListener("click", ()=>{
+        if (currentAudio && !currentAudio.paused) currentAudio.pause();
+
+        lofi2Audio.play();
+        // lofiAudio.loop();
+        lofi2Audio.volume = 0.25;
+        currentAudio = lofi2Audio;
+    })
+
+    stopMusic.addEventListener("click", ()=>{
+        if(currentAudio){
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+        
+    })
     
     //THEMES
     let background; let container; let buttonFront; let buttonBack; let hover;
@@ -26,6 +82,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     buttonFront = (167, 179, 162);
     hover = "#729281";
     let unhover = "#818e7c";
+    let title = document.getElementById("title");
+
+    
 
     //BUTTONS
     const buttonHolder = document.getElementById("button-holder");
@@ -34,8 +93,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const pauseText = document.getElementById("pause");
 	const upButton = document.getElementById("up");
 	const downButton = document.getElementById("down");
-    const dropdowns = document.querySelectorAll(".dropdowns")
-    let currBox = "10px 10px 3px"
+    const dropdowns = document.querySelectorAll(".dropdowns") // all the individual drop down divs aka kiki back etc
+    const taskInputBox= document.getElementById("to-do-task");
+    const listContainer = document.getElementById("list-container");
+    const add = document.getElementById("submit");
+    const clear = document.getElementById("clear");
 
     //Timer Variables
     let timerText = document.getElementById("time");
@@ -52,8 +114,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let paused = false
 	let originalMinutes;
 	let originalSeconds;
-	let isDragging = false;
-	let newX; let newY;
+
+
+ 
 
     dropdowns.forEach(dropdown => {
         dropdown.addEventListener('mouseover', () => {
@@ -63,9 +126,30 @@ document.addEventListener('DOMContentLoaded', ()=>{
         dropdown.addEventListener('mouseout', () => {
           dropdown.style.backgroundColor = unhover;
         });
+
+       
     });
 
-    function totoroResetCss(){
+
+    dropdowns.forEach(dropDown =>{
+        dropDown.addEventListener("click", ()=>{
+            taskInputBox.style.border = `3px solid ${buttonFront}`;
+            listContainer.style.border = `1px solid ${buttonFront}`;
+            add.style.backgroundColor = buttonFront;
+            clear.style.backgroundColor = buttonFront;
+
+
+        })
+    })
+    taskInputBox.addEventListener("focus", ()=>{
+        taskInputBox.style.outline = `3px solid ${buttonFront}`
+    });
+    taskInputBox.addEventListener("blur", ()=>{
+        taskInputBox.style.outline = "none";
+    })
+    
+
+    function ResetCss(){
         currBox = "10px 10px 3px";
         buttonHolder.style.cssText = `
         position:relative;
@@ -95,7 +179,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         place-items: center;`;
 
     }
-    function totoroPauseCSS(){
+    function PauseCSS(){
         currBox = "10px 10px 3px";
         pauseHolder.style.cssText = `
             position:relative;
@@ -124,7 +208,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             text-align: center;
             place-items: center;`;
     }
-    function totoroResumeCSS(){
+    function ResumeCSS(){
 
         pauseHolder.style.cssText = `
         position: absolute;
@@ -146,7 +230,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             box-shadow: 10px 10px 3px ${buttonBack};
             border-radius: 10px;`
     }
-    function totoroStartCSS(){
+    function StartCSS(){
         pauseHolder.style.cssText = `
 			position: absolute;
 			width: 105px;
@@ -173,21 +257,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
     kiki.addEventListener("click", ()=>{
         document.body.style.background = "#1F405C";
         container = "#00204C";
+
         buttonFront = "#1F405C";
         buttonBack = "#1F2E41";
+
         hover = "#3A475D";
         unhover = "#667B9D";
-        dropDown.style.backgroundColor = "#667B9D";
-        kikiDrop.style.backgroundColor= spiderDrop .style.backgroundColor= totoroDrop.style.backgroundColor ="#667B9D";
-        hogwartsDrop.style.backgroundColor = lofiDrop.style.backgroundColor ="#667B9D";
-        dropDown.style.boxShadow = "3px 3px 5px #4E5D74";
+        dropDown.style.backgroundColor = dropDownMusic.style.backgroundColor =  "#667B9D";
+        
+        dropDownThemeBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover;});
+        dropDown.style.boxShadow = dropDownMusic.style.boxShadow ="3px 3px 5px #4E5D74"
+        dropDownBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover;});
 
         pomodoroContainer.style.backgroundColor = container;
         buttonHolder.style.backgroundColor = buttonFront;
         buttonHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
         pauseHolder.style.backgroundColor = buttonFront;
         pauseHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
-        imgContainer.style.backgroundImage = "url('kiki.jpg')";
+        imgContainer.style.backgroundImage = "url('images/kiki.jpg')";
         imgContainer.style.objectFit = "cover";
         imgContainer.style.backgroundPosition = "center";
         
@@ -195,66 +282,69 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     spiderman.addEventListener("click", ()=>{
         document.body.style.background = "#5B0709"
+
         container = "#3C1818";
         buttonFront = "#4D0C01";
         buttonBack = "#090101";
         hover = "#927273"
         unhover = "#865858"
-        dropDown.style.backgroundColor = "#865858";
-        kikiDrop.style.backgroundColor= spiderDrop .style.backgroundColor= totoroDrop.style.backgroundColor ="#865858";
-        hogwartsDrop.style.backgroundColor = lofiDrop.style.backgroundColor ="#865858";
-        dropDown.style.boxShadow = "3px 3px 5px #664141";
+        dropDown.style.backgroundColor =  dropDownMusic.style.backgroundColor = "#865858";
+        dropDownThemeBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover;});
+        dropDown.style.boxShadow = dropDownMusic.style.boxShadow ="3px 3px 5px #664141";
+        dropDownBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover});
 
         pomodoroContainer.style.backgroundColor = container;
         buttonHolder.style.backgroundColor = buttonFront;
         buttonHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
         pauseHolder.style.backgroundColor = buttonFront;
         pauseHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
-        imgContainer.style.backgroundImage = "url('spiderman.png')";
+        imgContainer.style.backgroundImage = "url('images/spiderman.png')";
         imgContainer.style.objectFit = "cover";
         imgContainer.style.backgroundPosition = "center";
         
     })
     lofi.addEventListener("click", ()=>{
         document.body.style.background = "#1F405C";
+
         container = "#00204C";
         buttonFront = "#1F405C";
         buttonBack = "#1F2E41";
         hover = "#3A475D";
         unhover = "#667B9D";
-        dropDown.style.backgroundColor = "#667B9D";
-        kikiDrop.style.backgroundColor= spiderDrop .style.backgroundColor= totoroDrop.style.backgroundColor ="#667B9D";
-        hogwartsDrop.style.backgroundColor = lofiDrop.style.backgroundColor ="#667B9D";
-        dropDown.style.boxShadow = "3px 3px 5px #4E5D74";
+        dropDown.style.backgroundColor = dropDownMusic.style.backgroundColor = "#667B9D";
+        dropDownThemeBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover;});
+        dropDown.style.boxShadow = dropDownMusic.style.boxShadow = "3px 3px 5px #4E5D74";
+        dropDownBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover});
 
         pomodoroContainer.style.backgroundColor = container;
         buttonHolder.style.backgroundColor = buttonFront;
         buttonHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
         pauseHolder.style.backgroundColor = buttonFront;
         pauseHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
-        imgContainer.style.backgroundImage = "url('lofi.png')";
+        imgContainer.style.backgroundImage = "url('images/lofi.png')";
         imgContainer.style.objectFit = "cover";
         imgContainer.style.backgroundPosition = "center";
         
     })
     hogwarts.addEventListener("click", ()=>{
         document.body.style.background = "#713022";
+
         container = "#4C160B";
         buttonFront = "#703B32";
         buttonBack = "#2D0808";
         hover = "#927273";
         unhover = "#865858";
-        dropDown.style.backgroundColor = "#865858";
-        kikiDrop.style.backgroundColor= spiderDrop .style.backgroundColor= totoroDrop.style.backgroundColor ="#865858";
-        hogwartsDrop.style.backgroundColor = lofiDrop.style.backgroundColor ="#865858";
-        dropDown.style.boxShadow = "3px 3px 5px #4A362F";
+        dropDown.style.backgroundColor = dropDownMusic.style.backgroundColor= "#865858";
+        dropDownThemeBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover;});
+        dropDown.style.boxShadow = dropDownMusic.style.boxShadow = "3px 3px 5px #4A362F";
+        dropDownBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover});
 
         pomodoroContainer.style.backgroundColor = container;
         buttonHolder.style.backgroundColor = buttonFront;
         buttonHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
         pauseHolder.style.backgroundColor = buttonFront;
         pauseHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
-        imgContainer.style.backgroundImage = "url('gryff-1.jpg')";
+        imgContainer.style.backgroundImage = "url('images/gryff-1.jpg')";
         imgContainer.style.objectFit = "cover";
         imgContainer.style.backgroundPosition = "center";
         
@@ -262,26 +352,45 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     totoro.addEventListener("click", ()=>{
         document.body.style.background = "#A7B3A2";
+
         container = "#76947E";
         buttonFront = "#A7B3A2";
         buttonBack = "#80897C";
         hover = "#729281";
         unhover = "#818e7c";
 
-        dropDown.style.backgroundColor = "#818e7c";
-        kikiDrop.style.backgroundColor= spiderDrop .style.backgroundColor= totoroDrop.style.backgroundColor ="#818e7c";
-        hogwartsDrop.style.backgroundColor = lofiDrop.style.backgroundColor ="#818e7c";
-        dropDown.style.boxShadow = "3px 3px 5px #41483f";
+
+        dropDown.style.backgroundColor = dropDownMusic.style.backgroundColor = "#818e7c";
+        dropDownThemeBacks.forEach(dropdown =>{dropdown.style.backgroundColor = unhover;});
+        dropDown.style.boxShadow = dropDownMusic.style.boxShadow = "3px 3px 5px #41483f";
+     
+        dropDownBacks.forEach(dropdown =>{
+            dropdown.style.backgroundColor = unhover});
 
         pomodoroContainer.style.backgroundColor = container;
         buttonHolder.style.backgroundColor = buttonFront;
         buttonHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
         pauseHolder.style.backgroundColor = buttonFront;
         pauseHolder.style.boxShadow = `10px 10px 3px ${buttonBack}`;
-        imgContainer.style.backgroundImage = "url('totoro.png')";
+        imgContainer.style.backgroundImage = "url('images/totoro.png')";
         imgContainer.style.objectFit = "cover";
         imgContainer.style.backgroundPosition = "center";
         
+        
+    })
+
+    timerlink.addEventListener("click", ()=>{
+
+        todoContainer.style.display = "none";
+        pomodoroContainer.style.display = "block";
+        title.textContent = "Pomodoro Timer";
+    })
+
+    
+    todoLink.addEventListener("click", (e)=>{
+        pomodoroContainer.style.display = "none";
+        todoContainer.style.display = "block";
+        title.textContent = "To Do List";
         
     })
 
@@ -316,7 +425,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         paused = false; // Timer is no longer running
         pauseHolder.style.display = "none";
         pauseText.style.display = "none";
-        totoroResetCss();
+        ResetCss();
 		upButton.style.display = "block";
 		downButton.style.display = "block";
         startText.textContent = "START";
@@ -330,7 +439,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         clearInterval(countdownInterval)
         buttonHolder.style.display = "none";
         startText.style.display = "none";
-        totoroPauseCSS();
+        PauseCSS();
 
    } 
     function startCountDown(){
@@ -356,16 +465,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 clearInterval(countdownInterval);
             }
         }, 1000);
-
     }
 
     function resumeTimer(){
         paused = false;
         startCountDown();
+     
         pauseHolder.style.display = "block";
         pauseText.style.display = "block";
-        
-            
+        ResumeCSS();
         startText.style.display = "block";
         startText.textContent = "RESTART"
         startText.style.fontSize = "35px";
@@ -374,7 +482,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         pauseText.style.fontSize = "35px";
         pauseText.style.top = "-35px";
         timerRunning = true;
-        totoroResumeCSS();
 	}
 
 	function startTimer(){
@@ -383,13 +490,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 			originalSeconds = seconds
 			timerRunning = true;
 			paused = false;
+
 			upButton.style.display = "none";
 			downButton.style.display = "none";
 			pauseHolder.style.display = "block";
 			pauseText.style.display = "block";
 			pauseText.style.display = "block";
-			totoroStartCSS();
-				
+			StartCSS();
 			startText.textContent = "RESTART"
 			startText.style.fontSize = "35px";
 			startText.style.top = "-35px";
@@ -401,7 +508,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 		
 
 	}
-	
+
 
 	pauseHolder.addEventListener("click", ()=>{
 			if(paused){
@@ -423,32 +530,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 	})
 
 
-});
+})
+    
 
-
-
-
-
-
-
-
-
-
-
-// pomodoroContainer.addEventListener("mousedown", (e)=>{
-//     if(pomodoroContainer.style.cursor){isDragging = true;}
-//     newX= e.clientX - pomodoroContainer.getBoundingClientRect().left;
-//     newY= e.clientY - pomodoroContainer.getBoundingClientRect().top;
-//     pomodoroContainer.style.position = "absolute";
-// })
-
-// document.addEventListener("mousemove", (e)=>{
-//     if(!isDragging) return;
-//     pomodoroContainer.style.left = e.pageX - newX + "px";
-//     pomodoroContainer.style.top = e.pageY - newY + "px";
-// })
-
-// pomodoroContainer.addEventListener("mouseup", (e)=>{
-//     isDragging =false;
-// })
 

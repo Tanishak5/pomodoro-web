@@ -6,6 +6,9 @@ body{
     margin: 0;
     padding: 0;
 }
+a{
+    text-decoration: none;
+}
 
 
 h1{
@@ -48,6 +51,7 @@ nav{
 
 
 }
+
 .dropdown{
     display:none;
     overflow:hidden;
@@ -55,12 +59,19 @@ nav{
     position: absolute;
     width: 60px;
     height: 90px;
-    left: 880px;
+    
     top: 42px;
     color:beige;
     background-color:#818e7c;
     box-shadow: 3px 3px 5px #41483f;
 }
+#dropdownthemes{
+    left: 880px;
+}
+#dropdownmusic{
+    left: 1020px;
+}
+
 #themes:hover +  .dropdown{
     display:block;
 }
@@ -73,7 +84,10 @@ nav{
     text-decoration: underline;
 }
 
+.music-back:hover{
+    text-decoration: underline;
 
+}
 
 #music{
     /*music*/
@@ -97,8 +111,9 @@ nav{
 
 
 }
-#music:hover{
-    text-decoration: underline;
+#music:hover + .dropdown{
+    display: block;
+
 }
 
 #timer{
@@ -311,7 +326,7 @@ nav{
     height: 345px;
     left: calc(50% - 285px/2 + 0.5px);
     top: 110px;
-    background: url(totoro.png);
+    background: url(images/totoro.png);
     /* background: url(totoro-orange.png); */
     background-size: cover;
     
@@ -321,7 +336,115 @@ nav{
 }
 
 
+.to-do-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 943px;
+    height: 554px;
+    left: calc(50% - 943px/2 - 0.5px);
+    bottom: 50px;
+
+    background: #F5F5DC;
+    border-radius: 10px;
+
+}
+
+#to-do-task{
+
+    position: absolute;
+    width: 660px;
+    height: 82px;
+    top: 48px;
+    left: calc(50% - 778px/2);
+    border: 3px solid #818e7c;
+    border-radius: 10px;
+    box-shadow: 3px 3px 3px #8ea79140;
+    text-align: center;
+    font-family: 'Jersey 10';
+    font-size: 30px;
+
+}
+
+/* TO DO SECTION*/
 
 
+
+#list-container{
+
+    box-sizing: border-box;
+    position: absolute;
+    width: 778px;
+    height: 340px;
+    left: calc(50% - 778px/2);
+    top:183px;
+
+    background: #F5F5DC;
+    border: 1px solid #76947E;
+    border-radius: 10px;
+    font-family: 'Jersey 10';
+
+
+}
+
+
+ul{
+    list-style-type: none;
+    top: 10px;
+    height: 300px;
+    column-width: 200px;
+    column-gap: 20px;   
+    overflow-y: auto;
+    
+
+}
+
+li.done{
+    text-decoration: line-through;
+}
+
+input[type="submit"]{
+    background-color: #A3B49C;
+    position: relative;
+    top: 48px;
+    width: 75px;
+    height: 40px;
+    left: calc(50% - 778px/2 + 700px);
+    border: none;
+    outline: none;
+    font-family: 'Jersey 10';
+    font-weight: 400;
+    font-size: 15px;
+
+    text-align: center;
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow:3px 3px 3px #818e7c;
+
+
+}
+
+
+#clear{
+    position: absolute;
+    top: 95px;
+    width: 75px;
+    height: 40px;
+    left: calc(50% - 778px/2 + 700px);
+
+    font-family: 'Jersey 10';
+    font-weight: 400;
+    font-size: 15px;
+    text-align: center;
+    color: #ffffff;
+    
+    border-radius: 10px;
+    box-shadow:3px 3px 3px #818e7c;
+    background-color: #A3B49C;
+    border: none;
+    outline: none;
+
+}
 
 

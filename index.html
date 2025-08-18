@@ -11,33 +11,52 @@
 </head>
 <body>
     <nav> 
-        <img src = "cat.png" height = 60px  style="top:15px;">
+        <img src = "images/cat.png" height = 60px  style="top:15px;">
         <a id="logo">Focus flow</a>
         <a id = "themes">Themes</a>
-        <div class = "dropdown" id="dropdown">
-            <div class = "dropdowns" id="kikiBack">
+        <div class = "dropdown theme-backs" id="dropdownthemes">
+            <div class = "dropdowns theme-backs" id="kikiBack">
                 <a id = "kiki">Kiki</a>
             </div>
-            <div class = "dropdowns" id="spidermanBack">
+            <div class = "dropdowns theme-backs" id="spidermanBack">
                 <a id = "spiderman">Spiderman</a>
             </div>
-            <div class = "dropdowns"  id="hpBack">
+            <div class = "dropdowns theme-backs"  id="hpBack">
                 <a id = "hp">Hogwarts</a>
             </div>
-            <div class = "dropdowns" id="lofiBack">
+            <div class = "dropdowns theme-backs" id="lofiBack">
                 <a id = "lofi">Lofi</a>
             </div>
-            <div class = "dropdowns" id="totoroBack">
+            <div class = "dropdowns theme-backs" id="totoroBack">
                 <a id = "totoro">Totoro</a>
             </div>
-  
         </div>
+
         <a id = "music">Music</a>
-        <a id = "timer">Timers</id>
-        <a id = "other">Other</a>
+        <div class = "dropdown" id = "dropdownmusic" >
+            <div class = "dropdowns music-back" id="sound1Back">
+                <a id = "sound1">Kiki's</a>
+            </div>
+            <div class = "dropdowns music-back" id = "sound2Back">
+                <a id = "sound2">Hogwarts</a>
+            </div>
+            <div class = "dropdowns music-back" id = "sound3Back">
+                <a id = "sound3">Lofi 1</a>
+            </div>
+            <div class = "dropdowns music-back" id="sound4Back">
+                <a id = "sound4">Lofi 2</a>
+            </div>
+            <div class = "dropdowns music-back" id="sound5Back">
+                <a id = "sound5">Stop</a>
+            </div>
+        </div>
+
+
+        <a id = "timer">Timer</id>
+        <a id = "other">To-do</a>
     </nav>
     <header>
-        <h1 >Pomodoro Timer</h1> 
+        <h1  id="title">Pomodoro Timer</h1> 
     </header>
    
     <div class = 'pomodoro-container' id = "pomodoro-container">
@@ -58,6 +77,25 @@
         </div>
         
     </div>
+    <div class = 'to-do-container'  id="to-do-container"style="display:none">
+        <div id="to-do-maker">
+            <!-- <label for="to-do">To do</label> -->
+            <form id="task-form">
+                <input type="text" id="to-do-task" name="to-do" placeholder="Enter a to do">
+
+                <input type="submit" value="Add to list" id="submit">
+                <button id = "clear">Clear all</button>
+                
+            </form>
+            
+
+            
+        </div>
+        <div id = "list-container">
+            <ul id="task-list"></ul>
+        </div>
+    </div>
     <script src="script.js"></script>
+    <script src = "to-do.js"></script>
 </body>
 </html>
